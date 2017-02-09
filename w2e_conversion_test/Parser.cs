@@ -26,7 +26,11 @@ namespace w2e_conversion_test
             responseSymbol,
             scoringText,
             isLastQuestion,
-            nextQuestionText;
+            nextQuestionText,
+            quesScoreColorRule,
+            nextQuesBehaviorRule,
+            responseCalculationRule,
+            responseType;
 
         int numberOfQuestions = 0;
 
@@ -65,14 +69,15 @@ namespace w2e_conversion_test
                 {
                     if (text.StartsWith("SCORE"))
                     {
-                        Console.WriteLine("MADE IT TO THE SCORE!!");
+                        conversionList.Last()["isLastQuestion"] = "TRUE";
                         NextQuestion(text);
-                        Output();
+                        PushToList();
+                        Writer(conversionList);
                     }
                     else if (text.StartsWith("If") && text.Contains("Q"))
                     {
                         NextQuestion(text);
-                        AddToArray();
+                        PushToList();
                     }
                     else if (!(text.Equals("Question") || text.Equals("Response") || text.Equals("Scoring")))
                     {
@@ -149,11 +154,23 @@ namespace w2e_conversion_test
             if (text.StartsWith("Y"))
             {
                 questionTemplate = "YesNo";
+                typeOfQuestion = "RadioButtons";
             }
             else if (text.Contains("%") || text.Contains("#"))
             {
-                questionTemplate = "input";
-            }
+                questionTemplate = "Input";
+                typeOfQuestion = "Number";
+                if (text.Contains("#"))
+                {
+                    responseLabel = "# Ticked";
+                    responseSymbol = "";
+                }
+                else
+                {
+                    responseLabel = "";
+                    responseSymbol = "%";
+                }
+	        }
         }
 
         private void Scoring(string text)
@@ -165,34 +182,38 @@ namespace w2e_conversion_test
             nextQuestionText = text;
         }
 
-        private void AddToArray()
+        private void PushToList()
         {
-            Console.WriteLine("MADE IT TO THE OUTPUT METHOD");
-            Console.WriteLine("number of questions = " + numberOfQuestions);
-
+            //ADD A DICTIONARY TO THE LIST
             conversionList.Add(new Dictionary<string, string>());
+            
+            //POPULATES THE DICTIONARY W/ KEY:VAL PAIRS
             conversionList[numberOfQuestions - 1].Add("ceeQuestionNumber", ceeNumber + "_Q" + numberOfQuestions);
             conversionList[numberOfQuestions - 1].Add("ceeNumber", ceeNumber);
             conversionList[numberOfQuestions - 1].Add("questionNumber", "Q" + numberOfQuestions);
+            conversionList[numberOfQuestions - 1].Add("typeOfQuestion", typeOfQuestion);
             conversionList[numberOfQuestions - 1].Add("title", title);
             conversionList[numberOfQuestions - 1].Add("standardText", standardText);
             conversionList[numberOfQuestions - 1].Add("instructionsMarkup", instructionsMarkup);
-            conversionList[numberOfQuestions - 1].Add("comment", comment);
             conversionList[numberOfQuestions - 1].Add("lowestScoringReplica", lowestScoringReplica);
+            conversionList[numberOfQuestions - 1].Add("comment", comment);
             conversionList[numberOfQuestions - 1].Add("questionDescriptionMarkup", questionDescriptionMarkup);
-            
-            Console.WriteLine("MADE IT TO THE OUTPUT METHOD 2");
-        }
-
-        private void Output()
-        {
-            Writer(conversionList);
+            conversionList[numberOfQuestions - 1].Add("questionTemplate", questionTemplate);
+            conversionList[numberOfQuestions - 1].Add("responseLabel", responseLabel);
+            conversionList[numberOfQuestions - 1].Add("responseSymbol", responseSymbol);
+            conversionList[numberOfQuestions - 1].Add("scoringText", scoringText);
+            conversionList[numberOfQuestions - 1].Add("isLastQuestion", "FALSE");
+            conversionList[numberOfQuestions - 1].Add("nextQuestionText", nextQuestionText);
+            conversionList[numberOfQuestions - 1].Add("quesScoreColorRule", quesScoreColorRule);
+            conversionList[numberOfQuestions - 1].Add("nextQuesBehaviorRule", nextQuesBehaviorRule);
+            conversionList[numberOfQuestions - 1].Add("responseCalculationRule", responseCalculationRule);
+            conversionList[numberOfQuestions - 1].Add("responseType", responseType);
         }
         
         private void Writer(List<Dictionary<string, string>> conversionList)
         {
-            Console.WriteLine("MADE IT TO THE WRITER METHOD");
             writer.WriteToExcel(conversionList);
+
         }
     }
 }
