@@ -13,48 +13,70 @@ namespace w2e_conversion_test
         {
             try
             {
-                if (text.StartsWith("CEE #:"))
+                if (columnNumber == 1)
                 {
-                    Cee(text);
+                    if (text.StartsWith("CEE #:"))
+                    {
+                        Cee(text);
+                    }
+                    else if (text.StartsWith("STANDARD"))
+                    {
+                        Standard(text);
+                    }
+                    else if (text.StartsWith("Instructions:"))
+                    {
+                        Instructions(text);
+                    }
+                    else if (text.StartsWith("Lowest Scoring Replica:"))
+                    {
+                        LowestScoringReplica(text);
+                    }
+                    else if (text.Equals("Comment:"))
+                    {
+                        Comment(text);
+                    }
+                    else if (text.StartsWith("Q"))
+                    {
+                        numberOfQuestions++;
+                    }
                 }
-                else if (text.StartsWith("STANDARD"))
+                else if (columnNumber == 2)
                 {
-                    Standard(text);
+                    if (text.StartsWith("SCORE"))
+                    {
+                        Output();
+                    }
+                    else if (text.StartsWith("If") && text.Contains("Q"))
+                    {
+                        NextQuestion(text);
+                    }
+                    else if (!(text.Equals("Question") || text.Equals("Response") || text.Equals("Scoring")))
+                    {
+                        Question(text);
+                    }
                 }
-                else if (text.StartsWith("Instructions:"))
+                else if (columnNumber == 3)
                 {
-                    Instructions(text);
+                    if ((text.StartsWith("Y") || text.Contains("%") || text.Contains("#")))
+                    {
+                        Response(text);
+                    }
                 }
-                else if (text.StartsWith("Lowest Scoring Replica:"))
+                else if (columnNumber == 4)
                 {
-                    LowestScoringReplica(text);
-                }
-                else if (text.Equals("Comment:"))
-                {
-                    Comment(text);
-                }
-                else if (columnNumber == 2 && !(text.Equals("Question") || text.Equals("Response") || text.Equals("Scoring")))
-                { 
-                    Question(text);
-                }
-                else if (text.StartsWith("Q") && text.Length < 4)
-                {
-                    numberOfQuestions++;
-                }
-                else if ((text.StartsWith("Y") || text.Contains("%") || text.Contains("#")) && columnNumber == 3)
-                {
-                    Response(text);
+                    Scoring(text);
                 }
                 
             }
             catch (Exception){}
         }
 
+        ExcelWriter writer = new ExcelWriter();
         
 //----------------------------WARNING TO YE: HERE BE DRAGONS---------------------------------
         
         //DECLARING ALL THE NEEDED VARIABLES FOR SCOPE
-        private List<Dictionary<string, string>> conversionList = new List<Dictionary<string, string>>();
+        public List<Dictionary<string, string>> conversionList = new List<Dictionary<string, string>>();
 
         private string 
             ceeNumber,
@@ -108,7 +130,6 @@ namespace w2e_conversion_test
             comment = "Comment: <input type='text' id='" + ceeNumber + "_COMM'";
         }
         
-
         private void Question(string text)
         {
             questionDescriptionMarkup += text;
@@ -123,12 +144,19 @@ namespace w2e_conversion_test
             else if (text.Contains("%") || text.Contains("#"))
             {
                 questionTemplate = "input";
-
             }
         }
 
+        private void Scoring(string text)
+        {
+            scoringText = text;
+        }
+        private void NextQuestion(string text)
+        {
+            nextQuestionText = text;
+        }
 
-        private void Output(string convertedText)
+        private void Output()
         {
             conversionList[numberOfQuestions - 1].Add("ceeQuestionNumber", ceeNumber + "_Q" + numberOfQuestions);
             conversionList[numberOfQuestions - 1].Add("ceeNumber", ceeNumber);
@@ -139,6 +167,13 @@ namespace w2e_conversion_test
             conversionList[numberOfQuestions - 1].Add("comment", comment);
             conversionList[numberOfQuestions - 1].Add("lowestScoringReplica", lowestScoringReplica);
             conversionList[numberOfQuestions - 1].Add("questionDescriptionMarkup", questionDescriptionMarkup);
+
+            Writer(conversionList);
+        
+        }
+        private void Writer(List<Dictionary<string, string>> conversionList)
+        {
+            writer.WriteToExcel(conversionList);
         }
     }
 }

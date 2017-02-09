@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace w2e_conversion_test
 {
-    class ExcelWriter
+    public class ExcelWriter
     {
+        public void WriteToExcel(List<Dictionary<string, string>> conversionList) 
+        {
+            Console.WriteLine("YOU MADE IT TO THE WRITER!!!!");
+        }
     }
 }

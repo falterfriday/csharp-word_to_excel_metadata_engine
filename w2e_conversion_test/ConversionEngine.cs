@@ -26,7 +26,7 @@ namespace w2e_conversion_test
                 Excel.Range range = null;
 
                 Parser parser = new Parser();//fires up a Parser object
-
+                
                 for (int row = 1; row <= presentRows; row++)
                 {
                     for (int col = 1; col <= 4; col++)
