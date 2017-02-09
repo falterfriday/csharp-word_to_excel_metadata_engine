@@ -9,6 +9,27 @@ namespace w2e_conversion_test
 {
     public class Parser
     {
+        //DECLARING ALL THE NEEDED VARIABLES FOR SCOPE
+        public List<Dictionary<string, string>> conversionList = new List<Dictionary<string, string>>();
+
+        private string
+            ceeNumber,
+            title,
+            typeOfQuestion,
+            standardText,
+            instructionsMarkup,
+            lowestScoringReplica,
+            comment,
+            questionDescriptionMarkup,
+            questionTemplate,
+            responseLabel,
+            responseSymbol,
+            scoringText,
+            isLastQuestion,
+            nextQuestionText;
+
+        int numberOfQuestions = 0;
+
         public void CheckText(string text, int columnNumber)
         {
             try
@@ -44,11 +65,14 @@ namespace w2e_conversion_test
                 {
                     if (text.StartsWith("SCORE"))
                     {
+                        Console.WriteLine("MADE IT TO THE SCORE!!");
+                        NextQuestion(text);
                         Output();
                     }
                     else if (text.StartsWith("If") && text.Contains("Q"))
                     {
                         NextQuestion(text);
+                        AddToArray();
                     }
                     else if (!(text.Equals("Question") || text.Equals("Response") || text.Equals("Scoring")))
                     {
@@ -68,33 +92,18 @@ namespace w2e_conversion_test
                 }
                 
             }
-            catch (Exception){}
+            catch (Exception)
+            {
+                Console.WriteLine("Uh Oh... Something broke in the Parser.");
+            }
         }
 
         ExcelWriter writer = new ExcelWriter();
         
 //----------------------------WARNING TO YE: HERE BE DRAGONS---------------------------------
         
-        //DECLARING ALL THE NEEDED VARIABLES FOR SCOPE
-        public List<Dictionary<string, string>> conversionList = new List<Dictionary<string, string>>();
-
-        private string 
-            ceeNumber,
-            title,
-            typeOfQuestion,
-            standardText,
-            instructionsMarkup,
-            lowestScoringReplica,
-            comment,
-            questionDescriptionMarkup,
-            questionTemplate,
-            responseLabel,
-            responseSymbol,
-            scoringText,
-            isLastQuestion,
-            nextQuestionText;
-
-        int numberOfQuestions = 0;
+        
+        
 
         private void Cee(string text)
         {
@@ -156,8 +165,12 @@ namespace w2e_conversion_test
             nextQuestionText = text;
         }
 
-        private void Output()
+        private void AddToArray()
         {
+            Console.WriteLine("MADE IT TO THE OUTPUT METHOD");
+            Console.WriteLine("number of questions = " + numberOfQuestions);
+
+            conversionList.Add(new Dictionary<string, string>());
             conversionList[numberOfQuestions - 1].Add("ceeQuestionNumber", ceeNumber + "_Q" + numberOfQuestions);
             conversionList[numberOfQuestions - 1].Add("ceeNumber", ceeNumber);
             conversionList[numberOfQuestions - 1].Add("questionNumber", "Q" + numberOfQuestions);
@@ -167,12 +180,18 @@ namespace w2e_conversion_test
             conversionList[numberOfQuestions - 1].Add("comment", comment);
             conversionList[numberOfQuestions - 1].Add("lowestScoringReplica", lowestScoringReplica);
             conversionList[numberOfQuestions - 1].Add("questionDescriptionMarkup", questionDescriptionMarkup);
-
-            Writer(conversionList);
-        
+            
+            Console.WriteLine("MADE IT TO THE OUTPUT METHOD 2");
         }
+
+        private void Output()
+        {
+            Writer(conversionList);
+        }
+        
         private void Writer(List<Dictionary<string, string>> conversionList)
         {
+            Console.WriteLine("MADE IT TO THE WRITER METHOD");
             writer.WriteToExcel(conversionList);
         }
     }
