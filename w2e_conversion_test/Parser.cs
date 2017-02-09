@@ -105,11 +105,8 @@ namespace w2e_conversion_test
 
         ExcelWriter writer = new ExcelWriter();
         
-//----------------------------WARNING TO YE: HERE BE DRAGONS---------------------------------
+//----------------------------WARNING: HERE BE DRAGONS---------------------------------
         
-        
-        
-
         private void Cee(string text)
         {
             //CEE QUESTION NUMBER IS GENERATED BUT ISN'T COMPLETE DUE TO UNKNOWN NUMBER OF QUESTIONS
@@ -155,6 +152,8 @@ namespace w2e_conversion_test
             {
                 questionTemplate = "YesNo";
                 typeOfQuestion = "RadioButtons";
+                responseLabel = "";
+                responseSymbol = "";
             }
             else if (text.Contains("%") || text.Contains("#"))
             {
