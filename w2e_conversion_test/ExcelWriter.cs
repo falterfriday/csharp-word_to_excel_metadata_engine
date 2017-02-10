@@ -28,16 +28,16 @@ namespace w2e_conversion_test
                 Console.WriteLine("Writing metadata to new file");
             }
         }
-        
 
-        public void WriteToExcel(List<Dictionary<string, string>> conversionList) 
+        public void WriteToExcel(List<Dictionary<string, string>> conversionList, Excel._Worksheet worksheet)
         {
+            int excelRow = 2;
+            int excelCol = 1;
             foreach (var dictionary in conversionList)
             {
                 foreach (var keyValue in dictionary)
                 {
-                    //Console.WriteLine(string.Format("{0}: {1}", keyValue.Key, keyValue.Value));
-
+                    Console.WriteLine(string.Format("{0}: {1}", keyValue.Key, keyValue.Value));
                 }
             }
         }

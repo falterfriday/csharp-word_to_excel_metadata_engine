@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Office.Interop;
+using Microsoft.Office.Core;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace w2e_conversion_test
 {
@@ -33,6 +36,23 @@ namespace w2e_conversion_test
             responseType;
 
         int numberOfQuestions = 0;
+
+        public void GenerateWorksheet()
+        {
+            Excel._Application objExcelApp = new Excel.Application();
+            objExcelApp.Visible = false;
+            Excel._Workbook workbook = objExcelApp.Workbooks.Add(1);
+            Excel._Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1];
+            if (worksheet == null)
+            {
+                Console.WriteLine("Worksheet could not be created. Check the ExcelWriter");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Writing metadata to new file");
+            }
+        }
 
         public void CheckText(string text, int columnNumber)
         {
@@ -103,7 +123,6 @@ namespace w2e_conversion_test
             }
         }
 
-        ExcelWriter writer = new ExcelWriter();
         
 //----------------------------WARNING: HERE BE DRAGONS---------------------------------
         
@@ -181,7 +200,7 @@ namespace w2e_conversion_test
             nextQuestionText = text;
         }
 
-        private void PushToList()
+        public void PushToList()
         {
             //ADD A DICTIONARY TO THE LIST
             conversionList.Add(new Dictionary<string, string>());
@@ -209,10 +228,17 @@ namespace w2e_conversion_test
             conversionList[numberOfQuestions - 1].Add("responseType", responseType);
         }
         
+	    
+
+        ExcelWriter writer = new ExcelWriter();
+
+
+
         private void Writer(List<Dictionary<string, string>> conversionList)
         {
-            writer.WriteToExcel(conversionList);
-
+            writer.WriteToExcel(conversionList, worksheet);
         }
+
+        public Excel._Worksheet worksheet { get; set; }
     }
 }
