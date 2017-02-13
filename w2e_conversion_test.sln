@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "w2e_conversion_test", "w2e_conversion_test\w2e_conversion_test.csproj", "{BDD5AFE6-65C7-40EA-92F6-5F9194C3E433}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Word to Metadata Converter", "w2e_conversion_test\Word to Metadata Converter.csproj", "{BDD5AFE6-65C7-40EA-92F6-5F9194C3E433}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -25,7 +25,22 @@ namespace w2e_conversion_test
                 
                 Excel.Range range = null;
 
-                Parser parser = new Parser();//fires up a Parser object
+                // NEW LIST OF DICTIONARIES
+                List<Dictionary<string, string>> conversionList = new List<Dictionary<string, string>>();
+
+                
+                Excel._Application objExcelApp = new Excel.Application();
+                objExcelApp.Visible = false;
+                Excel._Workbook workbook = objExcelApp.Workbooks.Add(1);
+                Excel._Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1];
+                if (worksheet == null)
+                {
+                    Console.WriteLine("Worksheet could not be created. Check the ExcelWriter");
+                    return;
+                }
+                
+                //NEW PARSER, PASSING LIST
+                Parser parser = new Parser();
                 
                 for (int row = 1; row <= presentRows; row++)
                 {
@@ -36,11 +51,18 @@ namespace w2e_conversion_test
 
                         if (cellText != null || cellText != "")
                         {
-                            parser.CheckText(cellText, col);
+                            parser.CheckText(conversionList, cellText, col);
                         }
                     }
                 }
 
+                ExcelWriter writer = new ExcelWriter();
+                writer.WriteToExcel(conversionList, worksheet);
+                
+                
+                
+                
+                
                 //CLOSE THE COPIED EXCEL FILE (HAVING A TON OF EXCEL INSTANCES RUNNING IN THE BKGRD = NO BUENO)
                 copiedExcelApp.Workbooks.Close();
                 copiedExcelApp.Application.Quit();

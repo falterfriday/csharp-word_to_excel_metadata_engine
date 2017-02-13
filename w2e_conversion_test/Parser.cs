@@ -12,8 +12,8 @@ namespace w2e_conversion_test
 {
     public class Parser
     {
+
         //DECLARING ALL THE NEEDED VARIABLES FOR SCOPE
-        public List<Dictionary<string, string>> conversionList = new List<Dictionary<string, string>>();
 
         private string
             ceeNumber,
@@ -37,24 +37,7 @@ namespace w2e_conversion_test
 
         int numberOfQuestions = 0;
 
-        public void GenerateWorksheet()
-        {
-            Excel._Application objExcelApp = new Excel.Application();
-            objExcelApp.Visible = false;
-            Excel._Workbook workbook = objExcelApp.Workbooks.Add(1);
-            Excel._Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1];
-            if (worksheet == null)
-            {
-                Console.WriteLine("Worksheet could not be created. Check the ExcelWriter");
-                return;
-            }
-            else
-            {
-                Console.WriteLine("Writing metadata to new file");
-            }
-        }
-
-        public void CheckText(string text, int columnNumber)
+        public void CheckText(List<Dictionary<string, string>> conversionList, string text, int columnNumber)
         {
             try
             {
@@ -91,13 +74,12 @@ namespace w2e_conversion_test
                     {
                         conversionList.Last()["isLastQuestion"] = "TRUE";
                         NextQuestion(text);
-                        PushToList();
-                        Writer(conversionList);
+                        PushToList(conversionList);
                     }
                     else if (text.StartsWith("If") && text.Contains("Q"))
                     {
                         NextQuestion(text);
-                        PushToList();
+                        PushToList(conversionList);
                     }
                     else if (!(text.Equals("Question") || text.Equals("Response") || text.Equals("Scoring")))
                     {
@@ -195,12 +177,13 @@ namespace w2e_conversion_test
         {
             scoringText = text;
         }
+
         private void NextQuestion(string text)
         {
             nextQuestionText = text;
         }
 
-        public void PushToList()
+        public List<Dictionary<string, string>> PushToList(List<Dictionary<string, string>> conversionList)
         {
             //ADD A DICTIONARY TO THE LIST
             conversionList.Add(new Dictionary<string, string>());
@@ -226,19 +209,9 @@ namespace w2e_conversion_test
             conversionList[numberOfQuestions - 1].Add("nextQuesBehaviorRule", nextQuesBehaviorRule);
             conversionList[numberOfQuestions - 1].Add("responseCalculationRule", responseCalculationRule);
             conversionList[numberOfQuestions - 1].Add("responseType", responseType);
-        }
-        
-	    
 
-        ExcelWriter writer = new ExcelWriter();
-
-
-
-        private void Writer(List<Dictionary<string, string>> conversionList)
-        {
-            writer.WriteToExcel(conversionList, worksheet);
+            return conversionList;
         }
 
-        public Excel._Worksheet worksheet { get; set; }
     }
 }

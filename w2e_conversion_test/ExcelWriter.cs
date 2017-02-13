@@ -12,22 +12,6 @@ namespace w2e_conversion_test
 {
     public class ExcelWriter
     {
-        public ExcelWriter()
-        {
-            Excel._Application objExcelApp = new Excel.Application();
-            objExcelApp.Visible = false;
-            Excel._Workbook workbook = objExcelApp.Workbooks.Add(1);
-            Excel._Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1];
-            if (worksheet == null)
-            {
-                Console.WriteLine("Worksheet could not be created. Check the ExcelWriter");
-                return;
-            }
-            else
-            {
-                Console.WriteLine("Writing metadata to new file");
-            }
-        }
 
         public void WriteToExcel(List<Dictionary<string, string>> conversionList, Excel._Worksheet worksheet)
         {
