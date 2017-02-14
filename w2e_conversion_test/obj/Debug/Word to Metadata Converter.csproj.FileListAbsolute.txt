@@ -1,0 +1,8 @@
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\bin\Debug\w2e_conversion_test.exe.config
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\bin\Debug\w2e_conversion_test.exe
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\bin\Debug\w2e_conversion_test.pdb
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\bin\Debug\Microsoft.Office.Tools.Excel.v4.0.Utilities.dll
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\bin\Debug\Microsoft.Office.Tools.Excel.v4.0.Utilities.xml
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\obj\Debug\w2e_conversion_test.exe
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\obj\Debug\w2e_conversion_test.pdb
+C:\Users\Patrick.Todd\Documents\Visual Studio 2013\Projects\04_excel_tests\w2e_conversion_test\w2e_conversion_test\obj\Debug\Word to Metadata Converter.csprojResolveAssemblyReference.cache

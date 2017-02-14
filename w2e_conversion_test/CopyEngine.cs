@@ -19,12 +19,12 @@ namespace w2e_conversion_test
             {
                 //OPEN NEW INSTANCE OF WORD
                 Word._Application objWordApp = new Word.Application();
+                objWordApp.Visible = false;
                 if (objWordApp == null)
                 {
                     Console.WriteLine("Word could not be started. Check that your office installation and project references are correct.");
                     return;
                 }
-                objWordApp.Visible = false;
                 Word._Document objDoc = objWordApp.Documents.Open(wordFile); //opens specified file in Word instance, stores it in objDoc
                 if (objDoc.Tables.Count == 0) //quickfail if document has no tables
                 {

@@ -15,15 +15,27 @@ namespace w2e_conversion_test
 
         public void WriteToExcel(List<Dictionary<string, string>> conversionList, Excel._Worksheet worksheet)
         {
-            int excelRow = 2;
-            int excelCol = 1;
-            foreach (var dictionary in conversionList)
+            try
             {
-                foreach (var keyValue in dictionary)
+                int excelRow = 2;
+                int excelCol = 1;
+
+                foreach (var dictionary in conversionList)
                 {
-                    Console.WriteLine(string.Format("{0}: {1}", keyValue.Key, keyValue.Value));
+                    foreach (var keyValue in dictionary)
+                    {
+                        worksheet.Cells[excelRow, excelCol] = keyValue.Value;
+                        excelCol++;
+                    }
+                    excelRow++;
+                    excelCol = 1;
                 }
             }
+            catch (Exception)
+            {
+                Console.WriteLine("Uh Oh... Something broke in the ExcelWriter.");
+            }
+            
         }
     }
 }

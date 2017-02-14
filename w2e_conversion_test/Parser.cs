@@ -35,7 +35,8 @@ namespace w2e_conversion_test
             responseCalculationRule,
             responseType;
 
-        int numberOfQuestions = 0;
+        int numberOfQuestions = 0,
+            counter = 0;
 
         public void CheckText(List<Dictionary<string, string>> conversionList, string text, int columnNumber)
         {
@@ -72,16 +73,17 @@ namespace w2e_conversion_test
                 {
                     if (text.StartsWith("SCORE"))
                     {
-                        conversionList.Last()["isLastQuestion"] = "TRUE";
                         NextQuestion(text);
                         PushToList(conversionList);
+                        numberOfQuestions = 0;
+                        conversionList.Last()["isLastQuestion"] = "TRUE";
                     }
                     else if (text.StartsWith("If") && text.Contains("Q"))
                     {
                         NextQuestion(text);
                         PushToList(conversionList);
                     }
-                    else if (!(text.Equals("Question") || text.Equals("Response") || text.Equals("Scoring")))
+                    else if (!(text.Equals("Question")))
                     {
                         Question(text);
                     }
@@ -95,7 +97,7 @@ namespace w2e_conversion_test
                 }
                 else if (columnNumber == 4)
                 {
-                    Scoring(text);
+                    Scoring(text);                        
                 }
                 
             }
@@ -104,7 +106,6 @@ namespace w2e_conversion_test
                 Console.WriteLine("Uh Oh... Something broke in the Parser.");
             }
         }
-
         
 //----------------------------WARNING: HERE BE DRAGONS---------------------------------
         
@@ -139,7 +140,7 @@ namespace w2e_conversion_test
 
         private void Comment(string text)
         {
-            comment = "Comment: <input type='text' id='" + ceeNumber + "_COMM'";
+            comment = ceeNumber + "_COMM";
         }
         
         private void Question(string text)
@@ -183,34 +184,35 @@ namespace w2e_conversion_test
             nextQuestionText = text;
         }
 
-        public List<Dictionary<string, string>> PushToList(List<Dictionary<string, string>> conversionList)
+        private void PushToList(List<Dictionary<string, string>> conversionList)
         {
             //ADD A DICTIONARY TO THE LIST
             conversionList.Add(new Dictionary<string, string>());
             
             //POPULATES THE DICTIONARY W/ KEY:VAL PAIRS
-            conversionList[numberOfQuestions - 1].Add("ceeQuestionNumber", ceeNumber + "_Q" + numberOfQuestions);
-            conversionList[numberOfQuestions - 1].Add("ceeNumber", ceeNumber);
-            conversionList[numberOfQuestions - 1].Add("questionNumber", "Q" + numberOfQuestions);
-            conversionList[numberOfQuestions - 1].Add("typeOfQuestion", typeOfQuestion);
-            conversionList[numberOfQuestions - 1].Add("title", title);
-            conversionList[numberOfQuestions - 1].Add("standardText", standardText);
-            conversionList[numberOfQuestions - 1].Add("instructionsMarkup", instructionsMarkup);
-            conversionList[numberOfQuestions - 1].Add("lowestScoringReplica", lowestScoringReplica);
-            conversionList[numberOfQuestions - 1].Add("comment", comment);
-            conversionList[numberOfQuestions - 1].Add("questionDescriptionMarkup", questionDescriptionMarkup);
-            conversionList[numberOfQuestions - 1].Add("questionTemplate", questionTemplate);
-            conversionList[numberOfQuestions - 1].Add("responseLabel", responseLabel);
-            conversionList[numberOfQuestions - 1].Add("responseSymbol", responseSymbol);
-            conversionList[numberOfQuestions - 1].Add("scoringText", scoringText);
-            conversionList[numberOfQuestions - 1].Add("isLastQuestion", "FALSE");
-            conversionList[numberOfQuestions - 1].Add("nextQuestionText", nextQuestionText);
-            conversionList[numberOfQuestions - 1].Add("quesScoreColorRule", quesScoreColorRule);
-            conversionList[numberOfQuestions - 1].Add("nextQuesBehaviorRule", nextQuesBehaviorRule);
-            conversionList[numberOfQuestions - 1].Add("responseCalculationRule", responseCalculationRule);
-            conversionList[numberOfQuestions - 1].Add("responseType", responseType);
+            conversionList[counter].Add("ceeQuestionNumber", ceeNumber + "_Q" + numberOfQuestions);
+            conversionList[counter].Add("ceeNumber", ceeNumber);
+            conversionList[counter].Add("questionNumber", "Q" + numberOfQuestions);
+            conversionList[counter].Add("typeOfQuestion", typeOfQuestion);
+            conversionList[counter].Add("title", title);
+            conversionList[counter].Add("standardText", standardText);
+            conversionList[counter].Add("instructionsMarkup", instructionsMarkup);
+            conversionList[counter].Add("lowestScoringReplica", lowestScoringReplica);
+            conversionList[counter].Add("comment", comment);
+            conversionList[counter].Add("questionDescriptionMarkup", questionDescriptionMarkup);
+            conversionList[counter].Add("questionTemplate", questionTemplate);
+            conversionList[counter].Add("responseLabel", responseLabel);
+            conversionList[counter].Add("responseSymbol", responseSymbol);
+            conversionList[counter].Add("scoringText", scoringText);
+            conversionList[counter].Add("isLastQuestion", "FALSE");
+            conversionList[counter].Add("nextQuestionText", nextQuestionText);
+            conversionList[counter].Add("quesScoreColorRule", quesScoreColorRule);
+            conversionList[counter].Add("nextQuesBehaviorRule", nextQuesBehaviorRule);
+            conversionList[counter].Add("responseCalculationRule", responseCalculationRule);
+            conversionList[counter].Add("responseType", responseType);
 
-            return conversionList;
+            questionDescriptionMarkup = String.Empty;
+            counter++;
         }
 
     }

@@ -15,7 +15,6 @@ namespace w2e_conversion_test
         {
             string wordFile = @"C:\temp\TestDoc.docx";
             string copiedExcelFile = @"C:\temp\TestDoc.xlsx";
-            string excelMetaDataFile = @"C:\temp\MetaDataTestDoc.xlsx";
             new CopyEngine(wordFile, copiedExcelFile);
             new ConversionEngine(copiedExcelFile);
             Console.WriteLine("ah... finished!");

@@ -30,7 +30,7 @@ namespace w2e_conversion_test
 
                 
                 Excel._Application objExcelApp = new Excel.Application();
-                objExcelApp.Visible = false;
+                objExcelApp.Visible = true;
                 Excel._Workbook workbook = objExcelApp.Workbooks.Add(1);
                 Excel._Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1];
                 if (worksheet == null)
@@ -41,15 +41,16 @@ namespace w2e_conversion_test
                 
                 //NEW PARSER, PASSING LIST
                 Parser parser = new Parser();
-                
+                string cellText;
+
                 for (int row = 1; row <= presentRows; row++)
                 {
                     for (int col = 1; col <= 4; col++)
                     {
                         range = copiedExcelWorksheet.Cells[row, col];
-                        string cellText = (range.Text.ToString()).Trim();
+                        cellText = (range.Text.ToString()).Trim();
 
-                        if (cellText != null || cellText != "")
+                        if (cellText != null && cellText != "")
                         {
                             parser.CheckText(conversionList, cellText, col);
                         }
@@ -59,13 +60,11 @@ namespace w2e_conversion_test
                 ExcelWriter writer = new ExcelWriter();
                 writer.WriteToExcel(conversionList, worksheet);
                 
-                
-                
-                
-                
                 //CLOSE THE COPIED EXCEL FILE (HAVING A TON OF EXCEL INSTANCES RUNNING IN THE BKGRD = NO BUENO)
                 copiedExcelApp.Workbooks.Close();
                 copiedExcelApp.Application.Quit();
+                objExcelApp.Workbooks.Close();
+                objExcelApp.Application.Quit();
             }
             catch (Exception)
             {
