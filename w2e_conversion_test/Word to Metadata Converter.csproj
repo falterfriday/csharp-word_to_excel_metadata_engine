@@ -54,6 +54,7 @@
     <Compile Include="ConversionEngine.cs" />
     <Compile Include="CopyEngine.cs" />
     <Compile Include="ExcelWriter.cs" />
+    <Compile Include="InstructionSanitizer.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

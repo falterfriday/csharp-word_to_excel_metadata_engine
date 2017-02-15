@@ -14,7 +14,6 @@ namespace w2e_conversion_test
     {
 
         //DECLARING ALL THE NEEDED VARIABLES FOR SCOPE
-
         private string
             ceeNumber,
             title,
@@ -130,6 +129,7 @@ namespace w2e_conversion_test
         
         private void Instructions(string text)
         {
+            InstructionSanitizer sanitize = new InstructionSanitizer(text);
             instructionsMarkup = text;
         }
 
@@ -184,12 +184,20 @@ namespace w2e_conversion_test
             nextQuestionText = text;
         }
 
+        //DEDICATED INSERT STRING FOR DB SCRIPT
+        string insertIntoCommand = "INSERT INTO SIMS_CEE_MetaData(CEEMetaDataId, CEEQuestionNumber ,CEENumber ,QuestionNumber ,QuestionType ,Title ,StandardText ,InstructionsMarkup ,LowestScoringReplica ,QuestionDescriptionMarkup ,QuestionTemplate ,ResponseLabel ,ResponseSymbol ,ScoringText ,IsLastQuestion,NextQuestionText ,QuesScoreColorRule ,NextQuesBehaviorRule ,ResponseCalculationRule ,ResponseType  ) VALUES(";
+        //string insertIntoSIMS = "=CONCATENATE(U2,A2,\",\",\"'\",B2,\"'\",\",\",\"'\",C2,\"'\",\",\",\"'\",D2,\"'\",\",\",\"'\",E2,\"'\",\",\",\"'\",F2,\"'\",\",\",\"'\",G2,\"'\",\",\",\"'\",H2,\"'\",\",\",\"'\",I2,\"'\",\",\",\"'\",J2,\"'\",\",\",\"'\",K2,\"'\",\",\",\"'\",L2,\"'\",\",\",\"'\",M2,\"'\",\",\",\"'\",N2,\"'\",\",\",\"'\",O2,\"'\",\",\",\"'\",P2,\"'\",\",\",\"'\",Q2,\"'\",\",\",\"'\",R2,\"'\",\",\",\"'\",S2,\"'\",\",\",\"'\",T2,\"'\",\")\")";
+        
         private void PushToList(List<Dictionary<string, string>> conversionList)
         {
+            //ADDITIONAL STRING FOR DB INSERTION SCRIPT
+            string insertScript = String.Format("=CONCATENATE(U{0},A{0},\",\",\"'\",B{0},\"'\",\",\",\"'\",C{0},\"'\",\",\",\"'\",D{0},\"'\",\",\",\"'\",E{0},\"'\",\",\",\"'\",F2,\"'\",\",\",\"'\",G{0},\"'\",\",\",\"'\",H{0},\"'\",\",\",\"'\",I{0},\"'\",\",\",\"'\",J{0},\"'\",\",\",\"'\",K{0},\"'\",\",\",\"'\",L{0},\"'\",\",\",\"'\",M{0},\"'\",\",\",\"'\",N{0},\"'\",\",\",\"'\",O{0},\"'\",\",\",\"'\",P{0},\"'\",\",\",\"'\",Q{0},\"'\",\",\",\"'\",R{0},\"'\",\",\",\"'\",S{0},\"'\",\",\",\"'\",T{0},\"'\",\")\")", (counter + 2).ToString());
+
             //ADD A DICTIONARY TO THE LIST
             conversionList.Add(new Dictionary<string, string>());
             
             //POPULATES THE DICTIONARY W/ KEY:VAL PAIRS
+            conversionList[counter].Add("CEEMetaDataId", "newid()");
             conversionList[counter].Add("ceeQuestionNumber", ceeNumber + "_Q" + numberOfQuestions);
             conversionList[counter].Add("ceeNumber", ceeNumber);
             conversionList[counter].Add("questionNumber", "Q" + numberOfQuestions);
@@ -210,6 +218,8 @@ namespace w2e_conversion_test
             conversionList[counter].Add("nextQuesBehaviorRule", nextQuesBehaviorRule);
             conversionList[counter].Add("responseCalculationRule", responseCalculationRule);
             conversionList[counter].Add("responseType", responseType);
+            conversionList[counter].Add("insertIntoCommand", insertIntoCommand);
+            conversionList[counter].Add("insertScript", insertScript);
 
             questionDescriptionMarkup = String.Empty;
             counter++;

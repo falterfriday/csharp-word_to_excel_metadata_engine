@@ -24,7 +24,7 @@ namespace w2e_conversion_test
                 {
                     foreach (var keyValue in dictionary)
                     {
-                        worksheet.Cells[excelRow, excelCol] = keyValue.Value;
+                        worksheet.Cells[excelRow, excelCol].Formula = keyValue.Value;
                         excelCol++;
                     }
                     excelRow++;
