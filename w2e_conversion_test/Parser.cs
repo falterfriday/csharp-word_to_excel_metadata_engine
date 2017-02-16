@@ -37,6 +37,8 @@ namespace w2e_conversion_test
         int numberOfQuestions = 0,
             counter = 0;
 
+        //TextSanitizer textSanitizer = new TextSanitizer();
+
         public void CheckText(List<Dictionary<string, string>> conversionList, string text, int columnNumber)
         {
             try
@@ -76,6 +78,11 @@ namespace w2e_conversion_test
                         PushToList(conversionList);
                         numberOfQuestions = 0;
                         conversionList.Last()["isLastQuestion"] = "TRUE";
+
+                        //CLEANING OF THE STRINGS
+                        typeOfQuestion = String.Empty;
+                        instructionsMarkup = String.Empty;
+                        lowestScoringReplica = String.Empty;
                     }
                     else if (text.StartsWith("If") && text.Contains("Q"))
                     {
@@ -129,7 +136,8 @@ namespace w2e_conversion_test
         
         private void Instructions(string text)
         {
-            InstructionSanitizer sanitize = new InstructionSanitizer(text);
+            text = TextSanitizer.InstructionSanitizer(text);
+            //text = textSanitizer.InstructionSanitizer(text);
             instructionsMarkup = text;
         }
 
@@ -221,6 +229,7 @@ namespace w2e_conversion_test
             conversionList[counter].Add("insertIntoCommand", insertIntoCommand);
             conversionList[counter].Add("insertScript", insertScript);
 
+            
             questionDescriptionMarkup = String.Empty;
             counter++;
         }

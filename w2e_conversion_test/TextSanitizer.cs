@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace w2e_conversion_test
 {
-    public class InstructionSanitizer
+    static class TextSanitizer
     {
-        private string text;
-
-        public InstructionSanitizer(string text)
+        public static string InstructionSanitizer(string text)
         {
-            text = "This is a testy test";
+            text.Replace("☐", "<input type=\"checkbox\"/> ");
             return text;
-            //this.text = text;
         }
     }
 }
