@@ -10,7 +10,7 @@ namespace w2e_conversion_test
     {
         private string text;
 
-        public string InstructionSanitizer(string text)
+        public InstructionSanitizer(string text)
         {
             text = "This is a testy test";
             return text;
