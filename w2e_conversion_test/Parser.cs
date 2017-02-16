@@ -130,8 +130,8 @@ namespace w2e_conversion_test
 
         private void Standard(string text)
         {
-            int colonIdx = text.IndexOf(":");
-            standardText = "<b>STANDARD:</b> " + (text.Substring(colonIdx + 2)).Trim();
+            text = TextSanitizer.StandardSanitizer(text);
+            standardText = text;
         }
         
         private void Instructions(string text)
