@@ -17,16 +17,20 @@ namespace w2e_conversion_test
 
         public static string InstructionSanitizer(string text)
         {
-            var list = text.Split();
-            List<string> cbList = new List<string>();
-            for (int i = 0; i < list.Length; i++)
+            text = string.Join(" ", text.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
+            var checkBoxList = text.Split();
+            for (int i = 0; i < checkBoxList.Length; i++)
             {
-                if (list[i].Contains("☐"))
+                if (checkBoxList[i].Contains("☐"))
                 {
-                    list[i] = list[i].Replace("☐", "\n<input type=\"checkbox\"/> ");
+                    checkBoxList[i] = checkBoxList[i].Replace("☐", "<br />\n<input type=\"checkbox\" id=\"CB\"/> ");
+                }
+                if (checkBoxList[i].Contains("Assess"))
+                {
+                    checkBoxList[i] = checkBoxList[i].Replace("Assess", "<br />\nAssess");
                 }
             }
-            text = string.Join(" ", list);
+            text = string.Join(" ", checkBoxList);
             return text;
         }
     }

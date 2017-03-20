@@ -214,7 +214,6 @@ namespace w2e_conversion_test
             conversionList[counter].Add("standardText", standardText);
             conversionList[counter].Add("instructionsMarkup", instructionsMarkup);
             conversionList[counter].Add("lowestScoringReplica", lowestScoringReplica);
-            conversionList[counter].Add("comment", comment);
             conversionList[counter].Add("questionDescriptionMarkup", questionDescriptionMarkup);
             conversionList[counter].Add("questionTemplate", questionTemplate);
             conversionList[counter].Add("responseLabel", responseLabel);
@@ -226,6 +225,7 @@ namespace w2e_conversion_test
             conversionList[counter].Add("nextQuesBehaviorRule", nextQuesBehaviorRule);
             conversionList[counter].Add("responseCalculationRule", responseCalculationRule);
             conversionList[counter].Add("responseType", responseType);
+            conversionList[counter].Add("comment", comment);
             conversionList[counter].Add("insertIntoCommand", insertIntoCommand);
             conversionList[counter].Add("insertScript", insertScript);
 
